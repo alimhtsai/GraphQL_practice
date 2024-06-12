@@ -13,16 +13,16 @@ var userData = [
 
 var hobbiesData = [
     {id: '1', title: 'swimming', description: 'swimming in the ocean', userId: '1'},
-    {id: '2', title: 'baking', description: 'baking breads, cookies, and more', userId: '5'},
-    {id: '3', title: 'coding', description: 'coding for fun', userId: '3'},
+    {id: '2', title: 'baking', description: 'baking breads, cookies, and more', userId: '1'},
+    {id: '3', title: 'coding', description: 'coding for fun', userId: '1'},
     {id: '4', title: 'sleeping', description: 'sleeping all day', userId: '4'},
     {id: '5', title: 'eating', description: 'eating all the good food', userId: '2'}
 ]
 
 var postsData = [
     {id: '1', comment: 'Yea', userId: '1'},
-    {id: '2', comment: 'Good', userId: '3'},
-    {id: '3', comment: 'Amazing', userId: '5'},
+    {id: '2', comment: 'Good', userId: '1'},
+    {id: '3', comment: 'Amazing', userId: '1'},
     {id: '4', comment: 'Handsome', userId: '2'},
     {id: '5', comment: 'Pretty', userId: '4'}
 ]
@@ -32,7 +32,8 @@ const {
     GraphQLID,
     GraphQLString,
     GraphQLInt,
-    GraphQLSchema
+    GraphQLSchema,
+    GraphQLList
 } = graphql
 
 // create types
@@ -43,7 +44,23 @@ const UserType = new GraphQLObjectType({
         id: {type: GraphQLID},
         name: {type: GraphQLString},
         age: {type: GraphQLInt},
-        profession: {type: GraphQLString}
+        profession: {type: GraphQLString},
+        posts: {
+            type: new GraphQLList(PostType),
+            resolve(parent, args) {
+                return _.filter(postsData, {
+                    userId: parent.id
+                });
+            }
+        },
+        hobbies: {
+            type: new GraphQLList(HobbyType),
+            resolve(parent, args) {
+                return _.filter(hobbiesData, {
+                    userId: parent.id
+                });
+            }
+        }
     })
 })
 
