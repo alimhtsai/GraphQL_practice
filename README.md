@@ -17,3 +17,42 @@
 Listening for requests...
 ```
 5. Open [http://localhost:4000/graphql](http://localhost:4000/graphql).
+
+---
+
+### Basic Query Command
+#### Query
+```
+{
+  users{
+    name
+    profession
+    age
+    hobbies{
+      title
+      description
+    }
+    posts{
+      comment
+    }
+  }
+}
+```
+#### Mutation
+```
+mutation {
+  createHobby(
+    title: "pet Kiki", 
+    description: "please pet Kiki cat now", 
+    userId: "2"
+  ) {
+    title
+    description
+    user {
+      name
+      profession
+      age
+    }
+  }
+}
+```
